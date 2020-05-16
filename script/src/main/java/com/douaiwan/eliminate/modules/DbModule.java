@@ -8,18 +8,19 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
+import java.util.Map;
+
 public class DbModule implements IListener<EventTask> {
     private final Jedis jedis;
     @Inject
     public DbModule() {
         jedis = initJedis();
     }
-
     private Jedis initJedis(){
         JedisPoolConfig config = new JedisPoolConfig();
         config.setMaxTotal(1);
         config.setMaxIdle(1);
-        JedisPool jedisPool = new JedisPool(config,
+        JedisPool jedisPool = new JedisPool( config ,
                 ServerConfig.getInstance().properties.getProperty("db_address"),
                 Integer.parseInt(ServerConfig.getInstance().properties.getProperty("db_port")),
                 5000,
@@ -32,5 +33,4 @@ public class DbModule implements IListener<EventTask> {
     public void call(EventTask eventTask) {
 
     }
-
 }

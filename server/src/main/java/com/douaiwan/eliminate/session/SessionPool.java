@@ -37,17 +37,15 @@ public class SessionPool {
 	}
 	
 	public static ISession removeOnline( long id ){
-		if( online.containsKey(id) ) 
-		{
+		if( online.containsKey(id) ) {
 			return online.remove(id);
 		}
 		return null;
 	}
 	
 	public static void registerSession(ChannelHandlerContext context,ISession session){
-		if( context == null )
-		{
-			System.out.println("Session is null ");
+		if( context == null ) {
+			System.out.println("Session is null");
 		}
 		pool.put(context,session);
 	}
@@ -60,70 +58,15 @@ public class SessionPool {
 	}
 	
 	public static ISession removeSession(ChannelHandlerContext context){
-		
-		if( pool.containsKey(context) && context != null )
-		{
+		if( pool.containsKey(context) && context != null ) {
 			ISession session = pool.remove( context );
 			System.out.println("从pool删除");
-			
 			return session;
 		}
 		return null;
 	}
 	
 	public static boolean contains(ChannelHandlerContext context){
-		return pool.containsKey(context);
+		return pool.containsKey( context );
 	}
-
-	/*
-	public static boolean containsOutLine(long id){
-		return outlineInfo.containsKey(id);
-	}
-
-
-	public static LoginAccountInfo getOutline(long id) {
-		return outlineInfo.get(id);
-	}
-	
-	public static Hashtable<Long, LoginAccountInfo> getOutlineAll() {
-		return outlineInfo;
-	}
-
-	public static void setOutline(LoginAccountInfo loginAc) {
-		outlineInfo.put( loginAc.getUniqueId(), loginAc);
-		removeOnlineInfo( loginAc.getUniqueId() );
-	}
-	
-	public static void removeOutline(long id) {
-		outlineInfo.remove( id );
-	}
-
-	public static boolean containsonLine(long id){
-		return onlineInfo.containsKey(id);
-	}
-	
-	public static LoginAccountInfo getOnlineInfo(long id) 
-	{
-		if( onlineInfo.containsKey( id ) ) 
-		{
-			return onlineInfo.get(id);
-		}
-		return null;
-	}
-
-	
-	
-	public static Hashtable<Long, LoginAccountInfo> getOnlineAll() {
-		return onlineInfo;
-	}
-
-	public static void setOnline(LoginAccountInfo loginAc) {
-		onlineInfo.put( loginAc.getUniqueId() , loginAc);
-		removeOutline( loginAc.getUniqueId() );
-	}
-	
-	private static void removeOnlineInfo( long id ) {
-		onlineInfo.remove( id );
-	}
-	*/
 }

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Group {
+
     private Map<Integer, ServerData> group = new HashMap();
 
     public Map<Integer, ServerData> getGroup() {

@@ -25,8 +25,7 @@ public class WebSocketBusinsHandler extends SimpleChannelInboundHandler<WebSocke
 	}
 
 	@Override
-	public void handlerAdded(ChannelHandlerContext arg0) throws Exception 
-	{	
+	public void handlerAdded(ChannelHandlerContext arg0) throws Exception {
 		if( !channels.contains( arg0.channel() ) ) {
 			channels.add(arg0.channel());
 
@@ -38,8 +37,7 @@ public class WebSocketBusinsHandler extends SimpleChannelInboundHandler<WebSocke
 	}
 
 	@Override
-	public void handlerRemoved( ChannelHandlerContext context ) throws Exception 
-	{
+	public void handlerRemoved( ChannelHandlerContext context ) throws Exception {
 		ISession session = SessionPool.getSession( context );
 		if( session != null ) {
 			session.setHeartTime(0);

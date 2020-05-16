@@ -1,15 +1,19 @@
 package com.douaiwan.eliminate.server;
 
+import com.douaiwan.eliminate.commands.TestCommand;
+import com.douaiwan.eliminate.commands.interfaces.ICommand;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.*;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 
 public class HttpServer {
-	
+
+	private static final String TEST = "TEST"; //测试
 	private static final String RECHARGE = "recharge"; //充值接口
 	private static final String ONLINE_DETAIL = "online_detail"; //在线查询
 	private static final String RETAIN_DETAIL = "retain_detail"; //留存
@@ -35,79 +39,44 @@ public class HttpServer {
 	private static HttpServer insit = null;
 	private HashMap<String, Class<?>> commands = new HashMap<String, Class<?>>();
 	
-	public static HttpServer getInstance()
-	{
-		if( insit == null )
-		{
+	public static HttpServer getInstance() {
+		if( insit == null ) {
 			insit = new HttpServer();
 		}
-		
 		return insit;
 	}
 	
-	protected HttpServer()
-	{
-		/*
-		commands.put( RECHARGE,  RechargeCommand.class );
-		commands.put( ONLINE_DETAIL,  OnlineCommand.class );
-		commands.put( RETAIN_DETAIL,  RetainCommand.class );
-		commands.put( Task_DETAIL,  TaskCommand.class );
-		commands.put( DIS_DETAIL,  DistributionCommand.class );
-		commands.put( RESGISTER_DETAIL,  RegisterCommand.class );
-		commands.put( NOTICE_DETAIL , NoticeCommand.class );
-		commands.put( COMMAND_MAIL , MailCommand.class );
-		commands.put( STATISTICS_DETAIL , StatisticsCommand.class );
-		
-		commands.put( UserOnline , UserOnlineCommand.class );
-		commands.put( Online , OnlineCommand.class );
-		commands.put( RoleList , RoleListCommand.class );
-		commands.put( RoleInfo , AccountInfoCommand.class );
-		commands.put( PluginQuery, PluginQueryCommand.class);
-		commands.put( GmCommand, com.game.commands.GmCommand.class);
-		commands.put( Anexcuse, AnexcuseCommand.class); 
-		commands.put( Ban, BanCommand.class);
-		commands.put( Kick, KickCommand.class);
-		*/
+	protected HttpServer() {
+		commands.put( TEST,  TestCommand.class );
 	}
 	
-	public void DecordRequest( ChannelHandlerContext ctx, FullHttpRequest request ) 
-	{
+	public void DecordRequest( ChannelHandlerContext ctx, FullHttpRequest request ) {
 		//远程RUL调用请求
 		if( request.uri().length() <= 1 ) {
 			return;
 		}
 		
-		if( request.method() == HttpMethod.GET)
-		{
+		if( request.method() == HttpMethod.GET) {
 			return;
 		}
 		
 		String command = request.uri().substring( 1 , request.uri().length() );
-
 		String parameter = "";
 		
-		if( request.content().writerIndex() > 0 ) 
-		{
+		if( request.content().writerIndex() > 0 ) {
 			parameter = readString( request.content() );
 		}
 		
-		if( command.indexOf("?") != - 1) {
+		if( command.indexOf("?") != - 1 ) {
 			command = command.substring(0 ,command.indexOf("?"));
 		}
-			
-		System.out.println( "command:"+command + "       parameter:"+parameter );
-		
+
 		if( commands.containsKey( command ) ) {
-			/*
-			ICommand icommand;
 			try {
-				
-				icommand = (ICommand) commands.get( command ).newInstance();
+                ICommand icommand = (ICommand) commands.get( command ).newInstance();
 				parameter = URLDecoder.decode(parameter, "utf8");
 				String response = icommand.doCommand(parameter);
-				
-				if( response != null ) 
-				{
+				if( response != null ) {
 					writeResponse( ctx , response );
 				}
 			} catch ( Exception  e) {
@@ -115,7 +84,6 @@ public class HttpServer {
 			} catch ( Error e) {
 				e.printStackTrace();
 			}
-			 */
 		}
 	}
 	
@@ -139,19 +107,16 @@ public class HttpServer {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-       
     }
 	
-	 public static String readString( ByteBuf buf ) 
-	 {
-
-	    	try {
-	    		byte[] bytes = new byte[buf.writerIndex()];
-	    		buf.readBytes(bytes);
-				return new String(bytes,"utf-8");
-			} catch (UnsupportedEncodingException e) {
-				e.printStackTrace();
-			}
-	    	return null;
+	 public static String readString( ByteBuf buf ) {
+		try {
+			byte[] bytes = new byte[buf.writerIndex()];
+			buf.readBytes(bytes);
+			return new String(bytes,"utf-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return null;
 	 }
 }

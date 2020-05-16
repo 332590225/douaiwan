@@ -39,7 +39,6 @@ public class SystemModule implements IListener<MessageTask> {
 
     @Override
     public void call( MessageTask task) {
-        BaseHandler handler = handlers.get(task.getHead());
-        handler.handle(task);
+        handlers.get(task.getHead()).handle(task);
     }
 }

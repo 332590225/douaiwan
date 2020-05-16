@@ -13,22 +13,19 @@ public class Session extends BaseSession implements ISession {
 	
 	
 	@Override
-	public Session setSocketChanel(ChannelHandlerContext value) 
-	{
+	public Session setSocketChanel(ChannelHandlerContext value) {
 		Channel = value;
 		init();
 		return this;
 	}
 	
-	private void init()
-	{
+	private void init() {
 		bytebuffer = Unpooled.buffer();
 		cashbuffer = Unpooled.buffer();
 	}
 
 	@Override
-	public void Dispose() 
-	{
+	public void Dispose() {
 		Channel.close();
 		Clear();
 	}
@@ -48,15 +45,13 @@ public class Session extends BaseSession implements ISession {
 
 
 	@Override
-	public String Address() 
-	{
+	public String Address() {
 		java.net.InetSocketAddress insocket = (java.net.InetSocketAddress) Channel.channel().remoteAddress();
 		return insocket.getAddress().getHostAddress();
 	}
 
 	@Override
-	public void Clear() 
-	{
+	public void Clear() {
 		Channel = null;
 		bytebuffer = null;
 		Attributes.clear();
@@ -64,9 +59,7 @@ public class Session extends BaseSession implements ISession {
 
 	
 	@Override
-	public void toCash() 
-	{
-		//ByteBuf newBuf = Unpooled.buffer( bytebuffer.writerIndex() - bytebuffer.readerIndex() );
+	public void toCash() {
 		ByteBuf newBuf = Unpooled.buffer();
 		newBuf.readBytes( bytebuffer );
 		bytebuffer.clear();
@@ -89,10 +82,8 @@ public class Session extends BaseSession implements ISession {
 
 
 	@Override
-	public synchronized void send() 
-	{
-	    if( Channel != null && cashbuffer.writerIndex() > 0 )
-	    {
+	public synchronized void send() {
+	    if( Channel != null && cashbuffer.writerIndex() > 0 ) {
 	        ByteBuf buf = Unpooled.buffer();
 	        buf.writeBytes(cashbuffer);
 				
@@ -103,9 +94,7 @@ public class Session extends BaseSession implements ISession {
 	}
 
 	@Override
-	public synchronized void writeAndSend(ByteBuf bytes, int id) 
-	{
-	
+	public synchronized void writeAndSend(ByteBuf bytes, int id) {
 		cashbuffer.writeInt(bytes.writerIndex() + 8);
 		cashbuffer.writeInt(id);
 		cashbuffer.writeBytes(bytes);
@@ -113,8 +102,7 @@ public class Session extends BaseSession implements ISession {
 	}
 	
 	@Override
-	public synchronized void write(ByteBuf bytes , int id) 
-	{
+	public synchronized void write(ByteBuf bytes , int id) {
 		cashbuffer.writeInt(bytes.writerIndex() + 8);
 		cashbuffer.writeInt(id);
 		cashbuffer.writeBytes(bytes);

@@ -30,5 +30,4 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequ
 			}
 		}
 	}
-
 }
