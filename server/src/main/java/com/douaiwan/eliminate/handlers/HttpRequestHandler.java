@@ -9,6 +9,8 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 
+import java.util.stream.Stream;
+
 public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequest> implements ChannelHandler {
 
 	@Override

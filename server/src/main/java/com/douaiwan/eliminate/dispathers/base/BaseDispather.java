@@ -14,8 +14,6 @@ public abstract class BaseDispather<T> {
     }
 
     public void dispatherEvent(T t){
-        for( IListener<T> listener : listeners){
-            listener.call(t);
-        }
+        listeners.forEach(listener->listener.call(t));
     }
 }

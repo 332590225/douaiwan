@@ -28,6 +28,10 @@ public class SystemModule implements IListener<MessageTask> {
     public SystemModule(ExecutorModule executorModule) {
         this.executorModule = executorModule;
         MessageDispather.getInstance().addEventListener(this);
+        initRegister();
+    }
+
+    private void initRegister(){
         scheduler.addJob(EventTask.TICK,"* * * * * ? *");
         scheduler.addJob(EventTask.DAY_END,"59 59 23 ? * * *");
         scheduler.addJob(EventTask.WEEK_END,"58 59 23 ? * 7 *");

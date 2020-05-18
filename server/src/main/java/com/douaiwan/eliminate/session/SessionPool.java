@@ -1,9 +1,15 @@
 package com.douaiwan.eliminate.session;
 
+import com.douaiwan.eliminate.pojo.data.ServerData;
 import com.douaiwan.eliminate.session.interfaces.ISession;
 import io.netty.channel.ChannelHandlerContext;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
+
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
 
 public class SessionPool {
 	
@@ -19,7 +25,13 @@ public class SessionPool {
 	
 	public static ISession getOnlineSession(long id){
 		if( online.containsKey( id ) ) {
-			return online.get( id );
+			//return online.get( id );
+			List<ServerData> l = new ArrayList<>();
+			List<Integer> transactionsIds = l.parallelStream().
+					filter(t -> t.getServerID() == 100 ).
+					sorted(comparing(ServerData::getServerID).reversed()).
+					map(ServerData::getServerID).
+					collect(toList());
 		}
 		return null;
 	}
