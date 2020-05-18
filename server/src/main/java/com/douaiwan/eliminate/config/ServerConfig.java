@@ -19,11 +19,9 @@ public class ServerConfig {
             //"../config/config.properties"
             FileInputStream inputFile = new FileInputStream("D:/config/config.properties");
             properties.load( inputFile );
-
             inputFile.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
 }

@@ -11,10 +11,8 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 
 public class HttpRequestHandler extends SimpleChannelInboundHandler<FullHttpRequest> implements ChannelHandler {
 
-
 	@Override
-	protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception 
-	{
+	protected void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
 		if (!request.decoderResult().isSuccess() || !("websocket".equals(request.headers().get("Upgrade")))) {
 			System.out.println( "http请求:"+request.uri() );
 			HttpServer.getInstance().DecordRequest( ctx , request);

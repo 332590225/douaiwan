@@ -30,7 +30,6 @@ public class Session extends BaseSession implements ISession {
 		Clear();
 	}
 
-
 	@Override
 	public void setPlayer(Object obj) 
 	{
@@ -42,7 +41,6 @@ public class Session extends BaseSession implements ISession {
 	{
 		return user;
 	}
-
 
 	@Override
 	public String Address() {
@@ -57,7 +55,6 @@ public class Session extends BaseSession implements ISession {
 		Attributes.clear();
 	}
 
-	
 	@Override
 	public void toCash() {
 		ByteBuf newBuf = Unpooled.buffer();
@@ -65,7 +62,6 @@ public class Session extends BaseSession implements ISession {
 		bytebuffer.clear();
 		bytebuffer = newBuf;
 	}
-
 
 	@Override
 	public ChannelHandlerContext getChannel() 
@@ -78,8 +74,6 @@ public class Session extends BaseSession implements ISession {
 	{
 		Channel = value;
 	}
-
-
 
 	@Override
 	public synchronized void send() {
@@ -128,5 +122,4 @@ public class Session extends BaseSession implements ISession {
     public void setHeartTime( long heartTime ) {
         this.heartTime = heartTime;
     }
-
 }
